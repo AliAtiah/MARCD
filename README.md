@@ -4,8 +4,8 @@
 
 # 🧠 MARCD: Multi‑Agent Regime‑Conditioned Diffusion for CVaR Allocation
 
-[![CI](https://github.com/your-org/MARCD/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/MARCD/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![CI](https://github.com/AliAtiah/MARCD/actions/workflows/ci.yml/badge.svg)](https://github.com/AliAtiah/MARCD/actions)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
 This repository implements the end‑to‑end framework described in:
 

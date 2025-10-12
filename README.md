@@ -11,7 +11,6 @@ This repository implements the end‑to‑end framework described in:
 
 > **Ali Atiah Alzahrani (Public Investment Fund)**  
 > **Crisis‑Aware Regime‑Conditioned Diffusion with CVaR Allocation (MARCD)**  
-> Paper: `Paper___Long___Oct_1_EXTENDED.pdf`
 
 MARCD is a **generative‑to‑decision** pipeline that couples:  
 1) **Regime inference** with a Gaussian HMM,  

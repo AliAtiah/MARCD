@@ -1,6 +1,6 @@
 import numpy as np
 
-import marcd as M
+import src as M
 
 
 def test_imports_and_versions():

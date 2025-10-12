@@ -35,23 +35,23 @@ The system runs **strict walk‑forward**, translating realistic, tail‑faithfu
 ```
 .
 ├── src/
-│   └── marcd/
-│       ├── __init__.py
-│       ├── __main__.py               # enables: python -m marcd
-│       ├── cli.py                    # argparse CLI
-│       ├── backtest.py               # walk-forward engine
-│       ├── regime.py                 # Gaussian HMM agent
-│       ├── scenario.py               # diffusion scaffolding
-│       ├── signal.py                 # blending + shrinkage
-│       ├── alloc.py                  # CVaR epigraph QP
-│       ├── baselines.py              # EW / RP / BL(stub)
-│       ├── diagnostics.py            # KS/ES/VS, LB p(|r|), VaR UC, CVaR err
-│       └── experiments.py            # ablations & sensitivity
+│   ├── __init__.py
+│   ├── __main__.py               # enables: python -m marcd
+│   ├── cli.py                    # argparse CLI
+│   ├── backtest.py               # walk-forward engine
+│   ├── regime.py                 # Gaussian HMM agent
+│   ├── scenario.py               # diffusion scaffolding
+│   ├── signal.py                 # blending + shrinkage
+│   ├── alloc.py                  # CVaR epigraph QP
+│   ├── baselines.py              # EW / RP / BL(stub)
+│   ├── diagnostics.py            # KS/ES/VS, LB p(|r|), VaR UC, CVaR err
+│   └── experiments.py            # ablations & sensitivity
 ├── tests/
 │   ├── test_imports.py
 │   └── test_utils.py
-├── marcd_main.py                     # legacy wrapper → delegates to CLI
-├── pyproject.toml                    # packaging + tooling
+├── MARCD.png
+├── marcd_main.py                 # legacy wrapper → delegates to CLI
+├── pyproject.toml                # packaging + tooling
 ├── .pre-commit-config.yaml
 ├── .editorconfig
 ├── .gitignore

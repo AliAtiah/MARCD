@@ -41,7 +41,7 @@ dev = [
 ] 
 
 [project.scripts]
-marcd = "marcd.cli:main"
+marcd = "src.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -6,6 +6,8 @@ Utility helpers for MARCD: filesystem, returns, metrics, and basic math helpers.
 """
 from __future__ import annotations
 
+import json
+import logging
 import math
 from pathlib import Path
 from typing import Tuple
@@ -16,6 +18,18 @@ import pandas as pd
 
 def ensure_dir(path: str | Path) -> None:
     Path(path).mkdir(parents=True, exist_ok=True)
+
+
+def setup_logging(level: int = logging.INFO) -> None:
+    logging.basicConfig(
+        level=level,
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
+
+
+def log_json(logger: logging.Logger, event: str, **kwargs) -> None:
+    payload = {"event": event, **kwargs}
+    logger.info(json.dumps(payload))
 
 
 def compute_returns(prices: pd.DataFrame) -> pd.DataFrame:

@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm  # type: ignore
 
-from .utils import compute_returns, rolling_last_trading_days, sharpe, sortino, max_drawdown, calmar, ensure_dir
+from .utils import compute_returns, rolling_last_trading_days, sharpe, sortino, max_drawdown, calmar, ensure_dir, setup_logging, log_json
 from .regime import RegimeAgent, RegimeConfig
 from .scenario import ScenarioAgent, DiffusionConfig
 from .signal import SignalAgent, SignalConfig
@@ -42,6 +42,7 @@ class BacktestConfig:
 
 
 def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -> Dict[str, Any]:
+    setup_logging()
     rets = compute_returns(prices).dropna()
     dates = rets.index
     n_assets = rets.shape[1]
@@ -66,6 +67,8 @@ def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -
     nav = [1.0]
     w_path = [w_prev.copy()]
     pnl = []
+
+    gov_rows = []
 
     for t in tqdm(range(1, len(rb_dates))):
         t_date = rb_dates[t]
@@ -95,6 +98,16 @@ def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -
         port_ret = float(w_t @ r_next) - trade_cost
         pnl.append(port_ret)
         nav.append(nav[-1] * (1 + port_ret))
+
+        gov_rows.append({
+            "date": str(t_date.date()),
+            "dual_budget": sol["extras"].get("dual_budget"),
+            "dual_turnover": sol["extras"].get("dual_turnover"),
+            "box_low": sol["extras"].get("active_box_low"),
+            "box_high": sol["extras"].get("active_box_high"),
+        })
+        log_json(logger=__import__(__name__), event="rebalance", date=str(t_date.date()), ret=port_ret)
+
         w_prev = w_t
         w_path.append(w_prev.copy())
 
@@ -112,6 +125,8 @@ def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -
     pd.DataFrame({"pnl": pnl, "nav": nav}).to_csv(outdir / "timeseries.csv")
     pd.DataFrame([metrics]).to_csv(outdir / "metrics.csv", index=False)
     np.save(outdir / "weights.npy", np.array(w_path))
+    if gov_rows:
+        pd.DataFrame(gov_rows).to_csv(outdir / "governance.csv", index=False)
     return {"pnl": pnl, "nav": nav, "metrics": metrics}
 
 

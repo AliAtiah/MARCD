@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import math
 import json
+import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict
@@ -43,6 +44,7 @@ class BacktestConfig:
 
 def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -> Dict[str, Any]:
     setup_logging()
+    logger = logging.getLogger(__name__)
     rets = compute_returns(prices).dropna()
     dates = rets.index
     n_assets = rets.shape[1]
@@ -106,7 +108,7 @@ def backtest_pipeline(prices: pd.DataFrame, cfg: BacktestConfig, outdir: Path) -
             "box_low": sol["extras"].get("active_box_low"),
             "box_high": sol["extras"].get("active_box_high"),
         })
-        log_json(logger=__import__(__name__), event="rebalance", date=str(t_date.date()), ret=port_ret)
+        log_json(logger=logger, event="rebalance", date=str(t_date.date()), ret=port_ret)
 
         w_prev = w_t
         w_path.append(w_prev.copy())

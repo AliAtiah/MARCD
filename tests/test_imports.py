@@ -1,5 +1,3 @@
-import numpy as np
-
 import src as M
 
 
